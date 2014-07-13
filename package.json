@@ -1,7 +1,7 @@
 {
   "name": "medeadown",
   "version": "0.0.0",
-  "description": "leveldown-compatible interface to meda (https://github.com/argo/medea)dd",
+  "description": "leveldown-compatible interface to medea (https://github.com/argo/medea)",
   "main": "medeadown.js",
   "scripts": {
     "test": "tape test.js"
