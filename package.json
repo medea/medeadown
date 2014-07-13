@@ -1,0 +1,19 @@
+{
+  "name": "medeadown",
+  "version": "0.0.0",
+  "description": "leveldown-compatible interface to meda (https://github.com/argo/medea)dd",
+  "main": "medeadown.js",
+  "scripts": {
+    "test": "tape test.js"
+  },
+  "author": "David Björklund <david.bjorklund@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "abstract-leveldown": "^0.12.3",
+    "medea": "git://github.com/kesla/medea#close-bug"
+  },
+  "devDependencies": {
+    "rimraf": "^2.2.8",
+    "tape": "^2.13.3"
+  }
+}
