@@ -45,4 +45,21 @@ MedeaDOWN.prototype._del = function (key, options, callback) {
   this.db.remove(key, callback)
 }
 
+// Not really a batch - need support in Medea for this to work
+MedeaDOWN.prototype._batch = function (array, options, callback) {
+  var db = this.db
+
+  require('run-parallel')(
+      array.map(function (operation) {
+        return function (done) {
+          if (operation.type === 'put')
+            db.put(operation.key, operation.value, done)
+          else
+            db.remove(operation.key, done)
+        }
+      })
+    , callback
+  )
+}
+
 module.exports = MedeaDOWN

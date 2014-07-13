@@ -10,7 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "abstract-leveldown": "^0.12.3",
-    "medea": "git://github.com/kesla/medea#close-bug"
+    "medea": "git://github.com/kesla/medea#close-bug",
+    "run-parallel": "^1.0.0"
   },
   "devDependencies": {
     "rimraf": "^2.2.8",
