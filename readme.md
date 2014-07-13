@@ -1,4 +1,4 @@
-# medeadown
+# medeadown[![build status](https://secure.travis-ci.org/kesla/medeadown.svg)](http://travis-ci.org/kesla/medeadown)
 
 leveldown-compatible interface to medea (https://github.com/argo/medea)
 
@@ -35,3 +35,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
