@@ -109,6 +109,11 @@ MedeaIterator.prototype._next = function (callback) {
   })
 }
 
+MedeaIterator.prototype._end = function (callback) {
+  this.keys = undefined
+  callback()
+}
+
 MedeaDOWN.prototype._iterator = function (options) {
   return new MedeaIterator(this.db, options)
 }
