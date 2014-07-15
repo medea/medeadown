@@ -102,6 +102,10 @@ MedeaIterator.prototype._next = function (callback) {
 
   var key = this.keys.pop()
   this.db.get(key, function (err, value) {
+
+    if (self.options.keyAsBuffer !== false)
+      key = new Buffer(key)
+
     if (options.valueAsBuffer === false)
       value = value.toString()
 
