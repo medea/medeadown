@@ -16,15 +16,19 @@ var fs = require('fs')
   , MedeaIterator = function (db, options) {
       AbstractIterator.call(this, db)
       this.options = options
-      this.keys = Object.keys(db.keydir)
+      var keys = Object.keys(db.keydir)
         .filter(ltgt.filter(options))
         .sort()
 
       if (!options.reverse)
-        this.keys = this.keys.reverse()
+        keys = keys.reverse()
 
       if (options.limit && options.limit !== -1)
-        this.keys = this.keys.slice( - options.limit)
+        keys = keys.slice( - options.limit)
+
+      this.snapshot = keys.map(function (key) {
+        return { key: key, entry: db.keydir[key] }
+      })
     }
 
 require('util').inherits(MedeaDOWN, AbstractLevelDOWN)
@@ -94,22 +98,41 @@ MedeaDOWN.prototype._batch = function (array, options, callback) {
   )
 }
 
+// medea.get, but changed to use the entry from the snapshot instead of the
+// latest one
 MedeaIterator.prototype._next = function (callback) {
-  var options = this.options
-
-  if (this.keys.length === 0)
+  if (this.snapshot.length === 0)
     return setImmediate(callback)
 
-  var key = this.keys.pop()
-  this.db.get(key, function (err, value) {
+  var self = this
+    , obj = this.snapshot.pop()
+    , entry = obj.entry
+    , key = obj.key
+    , filename = this.db.dirname + '/' + entry.fileId + '.medea.data'
+    , value = new Buffer(entry.valueSize)
+    , fd
+
+  this.db.readableFiles.forEach(function (df) {
+    if (df.timestamp === entry.fileId)
+      fd = df.fd
+  })
+
+  if (!fd) {
+    cb(new Error('Invalid file ID.'));
+    return;
+  }
+
+  fs.read(fd, value, 0, entry.valueSize, entry.valuePosition, function (err) {
+    if (err)
+      return callback(err)
 
     if (self.options.keyAsBuffer !== false)
       key = new Buffer(key)
 
-    if (options.valueAsBuffer === false)
+    if (self.options.valueAsBuffer === false)
       value = value.toString()
 
-    callback(err, key, value)
+    callback(null, key, value)
   })
 }
 

@@ -15,6 +15,7 @@
     "run-parallel": "^1.0.0"
   },
   "devDependencies": {
+    "abstract-leveldown": "git://github.com/rvagg/abstract-leveldown#more-tests",
     "rimraf": "^2.2.8",
     "tape": "^2.13.3"
   }
