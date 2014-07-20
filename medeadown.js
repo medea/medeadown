@@ -81,21 +81,19 @@ MedeaDOWN.prototype._del = function (key, options, callback) {
   this.db.remove(key, callback)
 }
 
-// Not really a batch - need support in Medea for this to work
 MedeaDOWN.prototype._batch = function (array, options, callback) {
   var db = this.db
+    , batch = db.createBatch()
 
-  require('run-parallel')(
-      array.map(function (operation) {
-        return function (done) {
-          if (operation.type === 'put')
-            db.put(operation.key, operation.value, done)
-          else
-            db.remove(operation.key, done)
-        }
-      })
-    , callback
-  )
+
+  array.map(function (operation) {
+    if (operation.type === 'put')
+      batch.put(operation.key, operation.value)
+    else
+      batch.remove(operation.key)
+  })
+
+  db.write(batch, callback)
 }
 
 // medea.get, but changed to use the entry from the snapshot instead of the
