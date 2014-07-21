@@ -11,7 +11,7 @@
   "dependencies": {
     "abstract-leveldown": "git://github.com/rvagg/abstract-leveldown",
     "ltgt": "^1.0.2",
-    "medea": "git://github.com/kesla/medea"
+    "medea": "git://github.com/argo/medea"
   },
   "devDependencies": {
     "rimraf": "^2.2.8",
