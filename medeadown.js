@@ -4,14 +4,14 @@ var fs = require('fs')
   , AbstractLevelDOWN = abstract.AbstractLevelDOWN
   , AbstractIterator = abstract.AbstractIterator
   , ltgt = require('ltgt')
-  , Medea = require('medea')
+  , medea = require('medea')
 
   , MedeaDOWN = function (location) {
       if (!(this instanceof MedeaDOWN))
         return new MedeaDOWN(location)
 
       AbstractLevelDOWN.call(this, location)
-      this.db = new Medea()
+      this.db = medea()
     }
   , MedeaIterator = function (db, options) {
       AbstractIterator.call(this, db)
