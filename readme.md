@@ -12,6 +12,48 @@ leveldown-compatible interface to medea (https://github.com/argo/medea)
 npm install medeadown
 ```
 
+## Benchmark
+
+Running on Macbook Air (mid 2012)
+
+```
+levelup + leveldown put(int, string) x 10 x 585 ops/sec ±2.09% (16 runs sampled)
+levelup + medeadown put(int, string) x 10 x 530 ops/sec ±1.53% (20 runs sampled)
+
+levelup + leveldown put(int, string) x 1000 x 47.33 ops/sec ±8.61% (16 runs sampled)
+levelup + medeadown put(int, string) x 1000 x 22.01 ops/sec ±5.27% (15 runs sampled)
+
+levelup + leveldown put(int, string) x 100000 x 0.50 ops/sec ±3.27% (5 runs sampled)
+levelup + medeadown put(int, string) x 100000 x 0.19 ops/sec ±1.91% (5 runs sampled)
+
+levelup + leveldown get(int):string x 10 x 602 ops/sec ±1.18% (18 runs sampled)
+levelup + medeadown get(int):string x 10 x 602 ops/sec ±1.09% (14 runs sampled)
+
+levelup + leveldown get(int):string x 1000 x 60.91 ops/sec ±3.12% (19 runs sampled)
+levelup + medeadown get(int):string x 1000 x 61.05 ops/sec ±10.42% (18 runs sampled)
+
+levelup + leveldown get(int):string x 100000 x 0.56 ops/sec ±5.64% (5 runs sampled)
+levelup + medeadown get(int):string x 100000 x 0.49 ops/sec ±4.45% (5 runs sampled)
+
+levelup + leveldown batch(int, string) x 10 x 625 ops/sec ±0.95% (13 runs sampled)
+levelup + medeadown batch(int, string) x 10 x 442 ops/sec ±1.97% (16 runs sampled)
+
+levelup + leveldown batch(int, string) x 1000 x 113 ops/sec ±4.41% (19 runs sampled)
+levelup + medeadown batch(int, string) x 1000 x 46.10 ops/sec ±1.81% (19 runs sampled)
+
+levelup + leveldown batch(int, string) x 100000 x 1.42 ops/sec ±5.11% (6 runs sampled)
+levelup + medeadown batch(int, string) x 100000 x 0.40 ops/sec ±0.98% (5 runs sampled)
+
+levelup + leveldown readStream x 10 x 550 ops/sec ±1.14% (22 runs sampled)
+levelup + medeadown readStream x 10 x 531 ops/sec ±1.80% (21 runs sampled)
+
+levelup + leveldown readStream x 1000 x 51.02 ops/sec ±3.13% (20 runs sampled)
+levelup + medeadown readStream x 1000 x 37.91 ops/sec ±1.55% (16 runs sampled)
+
+levelup + leveldown readStream x 100000 x 0.61 ops/sec ±5.97% (5 runs sampled)
+levelup + medeadown readStream x 100000 x 0.39 ops/sec ±5.57% (5 runs sampled)
+```
+
 ## Licence
 
 Copyright (c) 2014 David Björklund

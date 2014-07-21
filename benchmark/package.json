@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "level-benchmarks": "^1.0.1",
+    "level-packager": "^0.18.0",
+    "leveldown": "^0.10.2",
+    "levelup": "^0.18.5"
+  }
+}
