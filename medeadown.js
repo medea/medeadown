@@ -34,6 +34,12 @@ require('util').inherits(MedeaIterator, AbstractIterator)
 
 MedeaDOWN.prototype._open = function (options, callback) {
   var self = this
+    , done = function (err) {
+        if (err && err.code === 'ENOENT')
+          err = new Error(self.location + ': No such file or directory')
+
+        callback(err)
+      }
 
   if (options.createIfMissing === false || options.errorIfExists) {
     fs.exists(this.location, function (exists) {
@@ -46,15 +52,10 @@ MedeaDOWN.prototype._open = function (options, callback) {
           new Error(self.location + ' exists (errorIfExists is true)')
         )
       else
-        self.db.open(self.location, callback)
+        self.db.open(self.location, done)
     })
   } else {
-    this.db.open(this.location, function (err) {
-      if (err && err.code === 'ENOENT')
-        err = new Error(self.location + ': No such file or directory')
-
-      callback(err)
-    })
+    this.db.open(this.location, done)
   }
 }
 
