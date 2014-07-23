@@ -49,7 +49,12 @@ MedeaDOWN.prototype._open = function (options, callback) {
         self.db.open(self.location, callback)
     })
   } else {
-    this.db.open(this.location, callback)
+    this.db.open(this.location, function (err) {
+      if (err && err.code === 'ENOENT')
+        err = new Error(self.location + ': No such file or directory')
+
+      callback(err)
+    })
   }
 }
 
