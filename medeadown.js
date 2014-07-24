@@ -3,6 +3,7 @@ var fs = require('fs')
   , abstract = require('abstract-leveldown')
   , AbstractLevelDOWN = abstract.AbstractLevelDOWN
   , AbstractIterator = abstract.AbstractIterator
+  , keydir = require('keydir')
   , ltgt = require('ltgt')
   , medea = require('medea')
 
@@ -12,21 +13,16 @@ var fs = require('fs')
 
       AbstractLevelDOWN.call(this, location)
       this.db = medea()
+      this.keys = keydir()
     }
-  , MedeaIterator = function (db, options) {
-      AbstractIterator.call(this, db)
+  , MedeaIterator = function (medea, options) {
+      AbstractIterator.call(this, medea.db)
       this.options = options
-      this.keys = Object.keys(db.keydir)
-        .filter(ltgt.filter(options))
-        .sort()
 
-      if (!options.reverse)
-        this.keys = this.keys.reverse()
+      this.keys = medea.keys.range(options)
+      this.idx = 0
 
-      if (options.limit && options.limit !== -1)
-        this.keys = this.keys.slice( - options.limit)
-
-      this.snapshot = db.createSnapshot()
+      this.snapshot = medea.db.createSnapshot()
     }
 
 require('util').inherits(MedeaDOWN, AbstractLevelDOWN)
@@ -64,7 +60,15 @@ MedeaDOWN.prototype._close = function (callback) {
 }
 
 MedeaDOWN.prototype._put = function (key, value, options, callback) {
-  this.db.put(key, value, callback)
+  var self = this
+
+  this.db.put(key, value, function (err) {
+    if (err)
+      return callback(err)
+
+    self.keys.put(key)
+    callback()
+  })
 }
 
 MedeaDOWN.prototype._get = function (key, options, callback) {
@@ -82,12 +86,20 @@ MedeaDOWN.prototype._get = function (key, options, callback) {
 }
 
 MedeaDOWN.prototype._del = function (key, options, callback) {
-  this.db.remove(key, callback)
+  var self = this
+
+  this.db.remove(key, function (err) {
+    if (err)
+      return callback(err)
+
+    self.keys.del(key)
+    callback()
+  })
 }
 
 MedeaDOWN.prototype._batch = function (array, options, callback) {
-  var db = this.db
-    , batch = db.createBatch()
+  var self = this
+    , batch = this.db.createBatch()
 
 
   array.map(function (operation) {
@@ -97,15 +109,29 @@ MedeaDOWN.prototype._batch = function (array, options, callback) {
       batch.remove(operation.key)
   })
 
-  db.write(batch, callback)
+  this.db.write(batch, function (err) {
+    if (err)
+      return callback(err)
+
+    array.forEach(function (operation) {
+      if (operation.type === 'put')
+        self.keys.put(operation.key)
+      else
+        self.keys.del(operation.key)
+    })
+
+    callback()
+  })
 }
 
 MedeaIterator.prototype._next = function (callback) {
-  if (this.keys.length === 0)
+  if (this.idx === this.keys.length)
     return setImmediate(callback)
 
   var self = this
-    , key = this.keys.pop()
+    , key = this.keys[this.idx]
+
+  this.idx++
 
   this.db.get(key, this.snapshot, function (err, value) {
     if (err)
@@ -127,7 +153,7 @@ MedeaIterator.prototype._end = function (callback) {
 }
 
 MedeaDOWN.prototype._iterator = function (options) {
-  return new MedeaIterator(this.db, options)
+  return new MedeaIterator(this, options)
 }
 
 module.exports = MedeaDOWN
