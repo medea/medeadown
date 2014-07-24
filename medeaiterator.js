@@ -10,6 +10,8 @@ var AbstractIterator = require('abstract-leveldown').AbstractIterator
       this.snapshot = medea.db.createSnapshot()
     }
 
+  , setImmediate = global.setImmediate || process.nextTick
+
 require('util').inherits(MedeaIterator, AbstractIterator)
 
 MedeaIterator.prototype._next = function (callback) {
