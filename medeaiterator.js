@@ -37,6 +37,7 @@ MedeaIterator.prototype._next = function (callback) {
 
 MedeaIterator.prototype._end = function (callback) {
   this.keys = undefined
+  this.snapshot.close()
   callback()
 }
 
