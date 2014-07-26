@@ -1,6 +1,6 @@
 {
   "name": "medeadown",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "leveldown-compatible interface to medea (https://github.com/argo/medea)",
   "main": "medeadown.js",
   "scripts": {
