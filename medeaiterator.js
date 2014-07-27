@@ -27,8 +27,8 @@ MedeaIterator.prototype._next = function (callback) {
     if (err)
       return callback(err)
 
-    if (self.options.keyAsBuffer !== false)
-      key = new Buffer(key)
+    if (self.options.keyAsBuffer === false)
+      key = key.toString()
 
     if (self.options.valueAsBuffer === false)
       value = value.toString()
