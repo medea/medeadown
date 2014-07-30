@@ -17,50 +17,50 @@ npm install medeadown
 Running on Macbook Air (mid 2012)
 
 ```
-levelup + leveldown put(int, string) x 10 x 586 ops/sec ±1.97% (21 runs sampled)
-levelup + medeadown put(int, string) x 10 x 296 ops/sec ±87.05% (21 runs sampled)
+levelup + leveldown put(int, string) x 10 x 576 ops/sec ±1.69% (16 runs sampled)
+levelup + medeadown put(int, string) x 10 x 513 ops/sec ±1.04% (21 runs sampled)
 
-levelup + leveldown put(int, string) x 1000 x 16.27 ops/sec ±72.33% (8 runs sampled)
-levelup + medeadown put(int, string) x 1000 x 16.40 ops/sec ±51.51% (14 runs sampled)
+levelup + leveldown put(int, string) x 1000 x 56.26 ops/sec ±4.76% (18 runs sampled)
+levelup + medeadown put(int, string) x 1000 x 17.79 ops/sec ±22.66% (14 runs sampled)
 
-levelup + leveldown put(int, string) x 100000 x 0.47 ops/sec ±3.17% (5 runs sampled)
-levelup + medeadown put(int, string) x 100000 x 0.16 ops/sec ±24.59% (5 runs sampled)
+levelup + leveldown put(int, string) x 100000 x 0.44 ops/sec ±6.51% (5 runs sampled)
+levelup + medeadown put(int, string) x 100000 x 0.15 ops/sec ±38.40% (5 runs sampled)
 
-levelup + leveldown get(int):string x 10 x 590 ops/sec ±1.31% (12 runs sampled)
-levelup + medeadown get(int):string x 10 x 593 ops/sec ±1.84% (16 runs sampled)
+levelup + leveldown get(int):string x 10 x 614 ops/sec ±7.73% (13 runs sampled)
+levelup + medeadown get(int):string x 10 x 581 ops/sec ±8.03% (16 runs sampled)
 
-levelup + leveldown get(int):string x 1000 x 56.93 ops/sec ±2.49% (18 runs sampled)
-levelup + medeadown get(int):string x 1000 x 55.61 ops/sec ±3.96% (17 runs sampled)
+levelup + leveldown get(int):string x 1000 x 61.88 ops/sec ±4.17% (19 runs sampled)
+levelup + medeadown get(int):string x 1000 x 58.46 ops/sec ±6.31% (18 runs sampled)
 
-levelup + leveldown get(int):string x 100000 x 0.52 ops/sec ±4.81% (5 runs sampled)
-levelup + medeadown get(int):string x 100000 x 0.45 ops/sec ±4.00% (5 runs sampled)
+levelup + leveldown get(int):string x 100000 x 0.57 ops/sec ±2.19% (5 runs sampled)
+levelup + medeadown get(int):string x 100000 x 0.50 ops/sec ±4.65% (5 runs sampled)
 
-levelup + leveldown batch(int, string) x 10 x 625 ops/sec ±2.75% (15 runs sampled)
-levelup + medeadown batch(int, string) x 10 x 459 ops/sec ±2.38% (20 runs sampled)
+levelup + leveldown batch(int, string) x 10 x 634 ops/sec ±1.74% (14 runs sampled)
+levelup + medeadown batch(int, string) x 10 x 432 ops/sec ±1.79% (21 runs sampled)
 
-levelup + leveldown batch(int, string) x 1000 x 112 ops/sec ±5.89% (19 runs sampled)
-levelup + medeadown batch(int, string) x 1000 x 44.16 ops/sec ±4.49% (18 runs sampled)
+levelup + leveldown batch(int, string) x 1000 x 120 ops/sec ±5.71% (19 runs sampled)
+levelup + medeadown batch(int, string) x 1000 x 43.22 ops/sec ±2.99% (18 runs sampled)
 
-levelup + leveldown batch(int, string) x 100000 x 1.29 ops/sec ±2.85% (6 runs sampled)
-levelup + medeadown batch(int, string) x 100000 x 0.36 ops/sec ±5.04% (5 runs sampled)
+levelup + leveldown batch(int, string) x 100000 x 1.35 ops/sec ±7.73% (6 runs sampled)
+levelup + medeadown batch(int, string) x 100000 x 0.35 ops/sec ±7.20% (5 runs sampled)
 
-levelup + leveldown readStream (iterate whole db) x 10 x 564 ops/sec ±1.27% (20 runs sampled)
-levelup + medeadown readStream (iterate whole db) x 10 x 537 ops/sec ±1.74% (21 runs sampled)
+levelup + leveldown readStream (iterate whole db) x 10 x 542 ops/sec ±1.21% (19 runs sampled)
+levelup + medeadown readStream (iterate whole db) x 10 x 506 ops/sec ±1.97% (21 runs sampled)
 
-levelup + leveldown readStream (iterate whole db) x 1000 x 49.30 ops/sec ±3.21% (19 runs sampled)
-levelup + medeadown readStream (iterate whole db) x 1000 x 36.97 ops/sec ±2.39% (16 runs sampled)
+levelup + leveldown readStream (iterate whole db) x 1000 x 51.61 ops/sec ±2.36% (20 runs sampled)
+levelup + medeadown readStream (iterate whole db) x 1000 x 34.23 ops/sec ±4.28% (20 runs sampled)
 
-levelup + leveldown readStream (iterate whole db) x 100000 x 0.57 ops/sec ±2.37% (5 runs sampled)
-levelup + medeadown readStream (iterate whole db) x 100000 x 0.37 ops/sec ±1.40% (5 runs sampled)
+levelup + leveldown readStream (iterate whole db) x 100000 x 0.60 ops/sec ±6.57% (5 runs sampled)
+levelup + medeadown readStream (iterate whole db) x 100000 x 0.36 ops/sec ±4.24% (5 runs sampled)
 
-levelup + leveldown readStream (iterate 10% of db) x 10 x 629 ops/sec ±1.20% (10 runs sampled)
-levelup + medeadown readStream (iterate 10% of db) x 10 x 614 ops/sec ±16.52% (20 runs sampled)
+levelup + leveldown readStream (iterate 10% of db) x 10 x 621 ops/sec ±1.43% (10 runs sampled)
+levelup + medeadown readStream (iterate 10% of db) x 10 x 578 ops/sec ±1.15% (15 runs sampled)
 
-levelup + leveldown readStream (iterate 10% of db) x 1000 x 265 ops/sec ±5.21% (17 runs sampled)
-levelup + medeadown readStream (iterate 10% of db) x 1000 x 210 ops/sec ±0.95% (17 runs sampled)
+levelup + leveldown readStream (iterate 10% of db) x 1000 x 290 ops/sec ±1.18% (15 runs sampled)
+levelup + medeadown readStream (iterate 10% of db) x 1000 x 201 ops/sec ±1.34% (17 runs sampled)
 
-levelup + leveldown readStream (iterate 10% of db) x 100000 x 4.89 ops/sec ±16.30% (10 runs sampled)
-levelup + medeadown readStream (iterate 10% of db) x 100000 x 2.50 ops/sec ±18.09% (7 runs sampled)
+levelup + leveldown readStream (iterate 10% of db) x 100000 x 6.01 ops/sec ±1.63% (10 runs sampled)
+levelup + medeadown readStream (iterate 10% of db) x 100000 x 2.78 ops/sec ±11.57% (7 runs sampled)
 ```
 
 ## Licence
