@@ -45,6 +45,26 @@ test('iterator#end() do cleanup', function (t) {
   })
 })
 
+test('iterator on previously closed db', function (t) {
+  var location = db.location
+
+  db.put('beep', 'boop', function () {
+    db.close(function () {
+      db = medeaDOWN(location)
+      db.open(function () {
+        var iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false })
+
+        iterator.next(function (err, key, value) {
+          t.equal(key.toString(), 'beep')
+          t.equal(value.toString(), 'boop')
+          iterator.end(t.end.bind(t))
+        })
+
+      })
+    })
+  })
+})
+
 test('tearDown', function (t) {
   db.close(testCommon.tearDown.bind(null, t))
 })

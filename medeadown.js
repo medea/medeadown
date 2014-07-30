@@ -23,7 +23,14 @@ MedeaDOWN.prototype._open = function (options, callback) {
         if (err && err.code === 'ENOENT')
           err = new Error(self.location + ': No such file or directory')
 
-        callback(err)
+        if (err)
+          return callback(err)
+
+        Object.keys(self.db.keydir).forEach(function (key) {
+          self.keys.put(key)
+        })
+
+        callback()
       }
 
   if (options.createIfMissing === false || options.errorIfExists) {
