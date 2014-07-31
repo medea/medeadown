@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "abstract-leveldown": "git://github.com/rvagg/abstract-leveldown",
-    "medea": "^0.1.0",
+    "medea": "0.1.5",
     "keydir": "^2.0.0"
   },
   "devDependencies": {
