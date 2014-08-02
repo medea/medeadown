@@ -15,6 +15,8 @@ var fs = require('fs')
       this.keys = keydir()
     }
 
+  , setImmediate = global.setImmediate || process.nextTick
+
 require('util').inherits(MedeaDOWN, AbstractLevelDOWN)
 
 MedeaDOWN.prototype._open = function (options, callback) {
@@ -80,9 +82,11 @@ MedeaDOWN.prototype._del = function (key, options, callback) {
 }
 
 MedeaDOWN.prototype._batch = function (array, options, callback) {
+  if (array.length === 0)
+    return setImmediate(callback)
+
   var self = this
     , batch = this.db.createBatch()
-
 
   array.map(function (operation) {
     if (operation.type === 'put')
