@@ -1,4 +1,4 @@
-# medeadown[![build status](https://secure.travis-ci.org/kesla/medeadown.svg)](http://travis-ci.org/kesla/medeadown)
+# medeadown[![build status](https://secure.travis-ci.org/kesla/medeadown.svg)](http://travis-ci.org/kesla/medeadown)[![Build status](https://ci.appveyor.com/api/projects/status/0trcea0djn8x7bhg/branch/master)](https://ci.appveyor.com/project/kesla/medeadown/branch/master)
 
 leveldown-compatible interface to medea (https://github.com/argo/medea)
 
