@@ -72,6 +72,9 @@ MedeaDOWN.prototype._put = function (key, value, options, callback) {
 MedeaDOWN.prototype._del = function (key, options, callback) {
   var self = this
 
+  if (!this.keys.has(key))
+    return setImmediate(callback)
+
   this.db.remove(key, function (err) {
     if (err)
       return callback(err)
