@@ -84,19 +84,31 @@ MedeaDOWN.prototype._del = function (key, options, callback) {
   })
 }
 
+MedeaDOWN.prototype._createBatch = function (array) {
+  var self = this
+    , batch = this.db.createBatch()
+
+  array.forEach(function (operation, idx) {
+
+      for(var idx2 = idx + 1; idx2 < array.length; ++idx2)
+        if (array[idx2].key === operation.key)
+          return
+
+       if (operation.type === 'put')
+        batch.put(operation.key, operation.value)
+      else if (self.keys.has(operation.key))
+        batch.remove(operation.key)
+    })
+
+  return batch
+}
+
 MedeaDOWN.prototype._batch = function (array, options, callback) {
   if (array.length === 0)
     return setImmediate(callback)
 
   var self = this
-    , batch = this.db.createBatch()
-
-  array.map(function (operation) {
-    if (operation.type === 'put')
-      batch.put(operation.key, operation.value)
-    else
-      batch.remove(operation.key)
-  })
+    , batch = this._createBatch(array)
 
   this.db.write(batch, function (err) {
     if (err)
