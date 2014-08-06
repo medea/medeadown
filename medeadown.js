@@ -22,9 +22,6 @@ require('util').inherits(MedeaDOWN, AbstractLevelDOWN)
 MedeaDOWN.prototype._open = function (options, callback) {
   var self = this
     , done = function (err) {
-        if (err && err.code === 'ENOENT')
-          err = new Error(self.location + ': No such file or directory')
-
         if (err)
           return callback(err)
 
@@ -34,23 +31,28 @@ MedeaDOWN.prototype._open = function (options, callback) {
 
         callback()
       }
+    , subdir = this.location.split('/').slice(0, -1).join('/')
 
-  if (options.createIfMissing === false || options.errorIfExists) {
-    fs.exists(this.location, function (exists) {
-      if (!exists && options.createIfMissing === false)
-        callback(
-          new Error(self.location + ' does not exist (createIfMissing is false)')
-        )
-      else if (exists && options.errorIfExists)
-        callback(
-          new Error(self.location + ' exists (errorIfExists is true)')
-        )
-      else
-        self.db.open(self.location, done)
-    })
-  } else {
-    this.db.open(this.location, done)
-  }
+  fs.exists(subdir, function (exists) {
+    if (!exists) {
+      callback(new Error(self.location + ': No such file or directory'))
+    } else if (options.createIfMissing === false || options.errorIfExists) {
+      fs.exists(self.location, function (exists) {
+        if (!exists && options.createIfMissing === false)
+          callback(
+            new Error(self.location + ' does not exist (createIfMissing is false)')
+          )
+        else if (exists && options.errorIfExists)
+          callback(
+            new Error(self.location + ' exists (errorIfExists is true)')
+          )
+        else
+          self.db.open(self.location, done)
+      })
+    } else {
+      self.db.open(self.location, done)
+    }
+  })
 }
 
 MedeaDOWN.prototype._close = function (callback) {
