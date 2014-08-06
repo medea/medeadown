@@ -2,7 +2,9 @@ var AbstractIterator = require('abstract-leveldown').AbstractIterator
 
   , MedeaIterator = function (medea, options) {
       AbstractIterator.call(this, medea.db)
-      this.options = options
+
+      this.keyAsBuffer = options.keyAsBuffer !== false
+      this.valueAsBuffer = options.valueAsBuffer !== false
 
       this.keys = medea.keys.range(options)
       this.idx = 0
@@ -27,10 +29,10 @@ MedeaIterator.prototype._next = function (callback) {
     if (err)
       return callback(err)
 
-    if (self.options.keyAsBuffer === false)
+    if (!self.keyAsBuffer)
       key = key.toString()
 
-    if (self.options.valueAsBuffer === false)
+    if (!self.valueAsBuffer)
       value = value.toString()
 
     callback(null, key, value)
