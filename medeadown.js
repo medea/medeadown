@@ -3,6 +3,7 @@ var fs = require('fs')
   , AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
   , keydir = require('keydir')
   , medea = require('medea')
+  , open = require('leveldown-open')
 
   , MedeaIterator = require('./medeaiterator')
 
@@ -21,37 +22,21 @@ require('util').inherits(MedeaDOWN, AbstractLevelDOWN)
 
 MedeaDOWN.prototype._open = function (options, callback) {
   var self = this
-    , done = function (err) {
-        if (err)
-          return callback(err)
 
-        Object.keys(self.db.keydir).forEach(function (key) {
-          self.keys.put(key)
-        })
+  open(this.location, options, function (err) {
+    if (err)
+      return callback(err)
 
-        callback()
-      }
-    , subdir = this.location.split('/').slice(0, -1).join('/')
+    self.db.open(self.location, function (err) {
+      if (err)
+        return callback(err)
 
-  fs.exists(subdir, function (exists) {
-    if (!exists) {
-      callback(new Error(self.location + ': No such file or directory'))
-    } else if (options.createIfMissing === false || options.errorIfExists) {
-      fs.exists(self.location, function (exists) {
-        if (!exists && options.createIfMissing === false)
-          callback(
-            new Error(self.location + ' does not exist (createIfMissing is false)')
-          )
-        else if (exists && options.errorIfExists)
-          callback(
-            new Error(self.location + ' exists (errorIfExists is true)')
-          )
-        else
-          self.db.open(self.location, done)
+      Object.keys(self.db.keydir).forEach(function (key) {
+        self.keys.put(key)
       })
-    } else {
-      self.db.open(self.location, done)
-    }
+
+      callback()
+    })
   })
 }
 

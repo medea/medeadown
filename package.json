@@ -11,6 +11,7 @@
   "dependencies": {
     "abstract-leveldown": "git://github.com/rvagg/abstract-leveldown",
     "keydir": "^2.1.0",
+    "leveldown-open": "^1.0.1",
     "medea": "0.11.0"
   },
   "devDependencies": {
