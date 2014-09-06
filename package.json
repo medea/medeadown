@@ -1,7 +1,7 @@
 {
   "name": "medeadown",
   "version": "1.0.13",
-  "description": "leveldown-compatible interface to medea (https://github.com/argo/medea)",
+  "description": "leveldown-compatible interface to medea (https://github.com/medea/medea)",
   "main": "medeadown.js",
   "scripts": {
     "test": "tape test.js"
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kesla/medeadown.git"
+    "url": "https://github.com/medea/medeadown.git"
   },
   "keywords": [
     "leveldown",
@@ -29,7 +29,7 @@
     "database"
   ],
   "bugs": {
-    "url": "https://github.com/kesla/medeadown/issues"
+    "url": "https://github.com/medea/medeadown/issues"
   },
-  "homepage": "https://github.com/kesla/medeadown"
+  "homepage": "https://github.com/medea/medeadown"
 }
