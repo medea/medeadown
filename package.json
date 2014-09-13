@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "abstract-leveldown": "^1.0.0",
-    "keydir": "^2.1.0",
+    "keydir": "^2.1.1",
     "leveldown-open": "^1.0.1",
     "medea": "0.12.0"
   },
