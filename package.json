@@ -9,7 +9,7 @@
   "author": "David Björklund <david.bjorklund@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "abstract-leveldown": "^2.0.1",
+    "abstract-leveldown": "^1.0.0",
     "keydir": "^2.1.0",
     "leveldown-open": "^1.0.1",
     "medea": "0.12.0"
