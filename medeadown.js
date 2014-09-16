@@ -3,6 +3,7 @@ var fs = require('fs')
   , AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
   , keydir = require('keydir')
   , medea = require('medea')
+  , medeaCompressed = require('medea-compressed')
   , open = require('leveldown-open')
 
   , MedeaIterator = require('./medeaiterator')
@@ -12,8 +13,9 @@ var fs = require('fs')
         return new MedeaDOWN(location)
 
       AbstractLevelDOWN.call(this, location)
-      this.db = medea()
-      this.keys = keydir()
+    }
+  , fixValue = function (value) {
+      return Buffer.isBuffer(value) ? value : String(value)
     }
 
   , setImmediate = global.setImmediate || process.nextTick
@@ -22,6 +24,11 @@ require('util').inherits(MedeaDOWN, AbstractLevelDOWN)
 
 MedeaDOWN.prototype._open = function (options, callback) {
   var self = this
+    , compression = !(options.compression === false)
+    , medeaDb = medea()
+
+  this.db = compression ? medeaCompressed(medeaDb) : medeaDb
+  this.keys = keydir()
 
   open(this.location, options, function (err) {
     if (err)
@@ -31,7 +38,7 @@ MedeaDOWN.prototype._open = function (options, callback) {
       if (err)
         return callback(err)
 
-      Object.keys(self.db.keydir).forEach(function (key) {
+      Object.keys(medeaDb.keydir).forEach(function (key) {
         self.keys.put(key)
       })
 
@@ -47,7 +54,7 @@ MedeaDOWN.prototype._close = function (callback) {
 MedeaDOWN.prototype._put = function (key, value, options, callback) {
   var self = this
 
-  this.db.put(key, value, function (err) {
+  this.db.put(key, fixValue(value), function (err) {
     if (err)
       return callback(err)
 
@@ -82,7 +89,7 @@ MedeaDOWN.prototype._createBatch = function (array) {
           return
 
        if (operation.type === 'put')
-        batch.put(operation.key, operation.value)
+        batch.put(operation.key, fixValue(operation.value))
       else if (self.keys.has(operation.key))
         batch.remove(operation.key)
     })
