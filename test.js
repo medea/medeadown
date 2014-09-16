@@ -1,7 +1,8 @@
-var test       = require('tape')
+var fs         = require('fs')
+  , test       = require('tape')
   , testCommon = require('abstract-leveldown/testCommon')
   , medeaDOWN  = require('./medeadown')
-  , testBuffer = require('fs').readFileSync(__filename)
+  , testBuffer = fs.readFileSync(__filename)
   , db
 
 /*** compatibility with basic LevelDOWN API ***/
@@ -61,6 +62,42 @@ test('iterator on previously closed db', function (t) {
         })
 
       })
+    })
+  })
+})
+
+test('compression: default', function (t) {
+  var db2 = medeaDOWN(testCommon.location())
+  db2.open(function () {
+    db2.put('file', testBuffer, function (err) {
+
+      t.ok(fs.statSync(db2.location + '/1.medea.data').size < testBuffer.length, 'testbuffer is compressed')
+
+      db2.close(testCommon.tearDown.bind(null, t))
+    })
+  })
+})
+
+test('compression: true', function (t) {
+  var db2 = medeaDOWN(testCommon.location())
+  db2.open({ compression: true }, function () {
+    db2.put('file', testBuffer, function (err) {
+
+      t.ok(fs.statSync(db2.location + '/1.medea.data').size < testBuffer.length, 'testbuffer is compressed')
+
+      db2.close(testCommon.tearDown.bind(null, t))
+    })
+  })
+})
+
+test('compression: false', function (t) {
+  var db2 = medeaDOWN(testCommon.location())
+  db2.open({ compression: false }, function () {
+    db2.put('file', testBuffer, function (err) {
+
+      t.ok(fs.statSync(db2.location + '/1.medea.data').size > testBuffer.length, 'testbuffer is not compressed')
+
+      db2.close(testCommon.tearDown.bind(null, t))
     })
   })
 })
