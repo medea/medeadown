@@ -130,4 +130,8 @@ MedeaDOWN.prototype._iterator = function (options) {
   return new MedeaIterator(this, options)
 }
 
+MedeaDOWN.destroy = function (location, callback) {
+  medea.destroy(location, callback)
+}
+
 module.exports = MedeaDOWN
