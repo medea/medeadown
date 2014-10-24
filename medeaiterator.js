@@ -26,6 +26,9 @@ MedeaIterator.prototype._next = function (callback) {
   this.idx++
 
   this.db.get(key, this.snapshot, function (err, value) {
+    if (!err && value === undefined)
+      err = new Error('NotFound:')
+
     if (err)
       return callback(err)
 
