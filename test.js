@@ -76,7 +76,9 @@ test('iterator on previously closed db with deleted key', function (t) {
           var iterator = db.iterator({ keyAsBuffer: false, valueAsBuffer: false })
 
           iterator.next(function (err, key, value) {
-            t.equal(err.message, 'NotFound:')
+            t.notOk(err)
+            t.notOk(key)
+            t.notOk(value)
             iterator.end(t.end.bind(t))
           })
 
