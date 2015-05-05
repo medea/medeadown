@@ -12,7 +12,7 @@
     "abstract-leveldown": "^1.0.0",
     "keydir": "^2.1.1",
     "leveldown-open": "^1.0.1",
-    "medea": "^0.17.0"
+    "medea": "^0.17.1"
   },
   "devDependencies": {
     "rimraf": "^2.2.8",

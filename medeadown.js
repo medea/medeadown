@@ -31,11 +31,13 @@ MedeaDOWN.prototype._open = function (options, callback) {
       if (err)
         return callback(err)
 
-      Object.keys(self.db.keydir).forEach(function (key) {
-        self.keys.put(key)
-      })
+      self.db.listKeys(function (err, keys) {
+        keys.forEach(function (key) {
+          self.keys.put(key)
+        })
 
-      callback()
+        callback()
+      })
     })
   })
 }
