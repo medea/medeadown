@@ -78,15 +78,17 @@ MedeaDOWN.prototype._createBatch = function (array) {
     , batch = this.db.createBatch()
 
   array.forEach(function (operation, idx) {
-
       for(var idx2 = idx + 1; idx2 < array.length; ++idx2)
         if (array[idx2].key === operation.key)
           return
 
-       if (operation.type === 'put')
-        batch.put(operation.key, operation.value)
+      var key = self._serializeKey(operation.key)
+      var value = self._serializeValue(operation.value)
+
+      if (operation.type === 'put')
+        batch.put(key, value)
       else if (self.keys.has(operation.key))
-        batch.remove(operation.key)
+        batch.remove(key)
     })
 
   return batch
@@ -115,11 +117,18 @@ MedeaDOWN.prototype._batch = function (array, options, callback) {
 }
 
 MedeaDOWN.prototype._get = function (key, options, callback) {
-  var asBuffer = options.asBuffer !== false
+  var self = this
+    , asBuffer = options.asBuffer !== false
 
   this.db.get(key, function (err, value) {
-    if (!err && value === undefined)
-      err = new Error('NotFound:')
+    if (!self.keys.has(key)) {
+      callback(new Error('NotFound'))
+      return
+    }
+    if (!err && value === undefined) {
+      callback(err, asBuffer ? new Buffer('') : '')
+      return
+    }
 
     if (value && !asBuffer)
       value = value.toString()

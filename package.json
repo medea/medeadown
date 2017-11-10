@@ -9,10 +9,10 @@
   "author": "David Björklund <david.bjorklund@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "abstract-leveldown": "^1.0.0",
+    "abstract-leveldown": "3.0.x",
     "keydir": "^2.1.1",
-    "leveldown-open": "^1.0.1",
-    "medea": "^1.0.0"
+    "leveldown-open": "^1.0.3",
+    "medea": "^1.0.3"
   },
   "devDependencies": {
     "rimraf": "^2.2.8",
