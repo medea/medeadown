@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "rimraf": "^2.2.8",
-    "tape": "^2.13.3"
+    "tape": "^4.9.1"
   },
   "repository": {
     "type": "git",
